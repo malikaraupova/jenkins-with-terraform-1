@@ -71,3 +71,4 @@ node {
         sh 'terraform destroy -auto-approve'
         echo 'running destroy'
     }
+}
