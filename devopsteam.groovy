@@ -1,13 +1,8 @@
 properties([
     buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')), 
     pipelineTriggers([cron('*/15 * * * *'), 
-    pollSCM('* * * * *')])
+    pollSCM('H * * * *')])
 ])
-
-
-
-
-
 
 node {
     stage("Clone A Repository") {
@@ -41,11 +36,10 @@ node {
     }
     stage("Confirmation"){
         input 'Should I apply?'
-        echo "Hello"
     }
-    stage("Destroy"){
-        sh 'terraform destroy -auto-approve'
-        echo 'running destroy '
+    stage("Apply"){
+        sh 'terraform apply -auto-approve'
+        echo 'running apply '
     }
     stage("Security Check"){
         sh label: '', script: 
@@ -62,7 +56,7 @@ node {
         sleep 3
     }
      stage("Email Notification to Team"){
-        mail bcc: 'EC2', body: 'EC2 is created in AWS', cc: 'EC2', from: '', replyTo: '', subject: 'EC2 Build', to: 'emirmails@gmail.com'
+        mail bcc: 'EC2-VPC Created', body: 'EC2-VPC Created is created in AWS', cc: 'EC2-VPC Created', from: 'emirmails@gmail.com', replyTo: 'emirmails@gmail.com', subject: 'EC2-VPC Created Build', to: 'emirmails@gmail.com'
     }
     stage("Send message to a Contractor"){
         mail bcc: '', body: '''Hi, VPC has been built Thanks''', cc: '', from: '', replyTo: '', subject: 'VPC being built', to: 'contractor@company.com'    }
