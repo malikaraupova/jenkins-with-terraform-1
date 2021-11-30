@@ -1,35 +1,64 @@
+properties([
+    buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')), 
+    pipelineTriggers([cron('*/15 * * * *'), 
+    pollSCM('* * * * *')])
+])
+
+
+
+
 
 
 node {
     stage("Clone A Repository") {
-        git branch: 'main', url: 'https://github.com/emirsway/terraform-august-cloud.git'
+        timestamps {
+            checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/farrukh90/jenkins-class-august.git']]])
+        }
     }
     stage("Initialize"){
         timestamps {
             sh 'terraform init'
         }
     }
-    stage("Validate"){
-        sh 'terraform validate'
+    stage("Run Script"){
+        timestamps {
+        sh label: '', script: 
+		'''#!/bin/bash
+			if [ ! -d /tmp/foo ]; 
+			then
+				echo "Folder not found!"
+				echo "Creating a folder"
+				mkdir -p "/tmp/foo"
+			fi
+		'''
         }
     }
     stage("Plan"){
         sh 'terraform plan'
     }
     stage("Confirmation"){
-        input 'Should I apply?'
+        //input 'Should I apply?'
+        echo "Hello"
     }
     stage("Apply"){
-        sh 'terraform apply -auto-approve'
+        //sh 'terraform apply -auto-approve'
         echo 'running apply '
     }
     stage("Security Check"){
-        sh 'terraform refresh'
+        sh label: '', script: 
+		'''#!/bin/bash
+			if [ ! -d /tmp/foo ]; 
+			then
+				echo "Folder not found!"
+				echo "Creating a folder"
+				mkdir -p "/tmp/foo"
+			fi
+		'''
     }
     stage("Wait"){
-        sleep 5
+        sleep 10
     }
-    stage("Email Notification to Team"){
+     stage("Email Notification to Team"){
         mail bcc: 'EC2', body: 'EC2 is created in AWS', cc: 'EC2', from: '', replyTo: '', subject: 'EC2 Build', to: 'emirmails@gmail.com'
     }
     stage("Send message to a Contractor"){
