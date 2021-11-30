@@ -12,7 +12,7 @@ properties([
 node {
     stage("Clone A Repository") {
         timestamps {
-            checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/farrukh90/jenkins-class-august.git']]])
+            checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/emirsway/jenkins-terraform-aws-resources.git']]])
         }
     }
     stage("Initialize"){
