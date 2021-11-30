@@ -2,9 +2,7 @@
 
 node {
     stage("Clone A Repository") {
-        timestamps {
-            checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/emirsway/terraform-august-cloud.git']]])
-        }
+        git branch: 'main', url: 'https://github.com/emirsway/terraform-august-cloud.git'
     }
     stage("Initialize"){
         timestamps {
