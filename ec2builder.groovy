@@ -33,15 +33,18 @@ node {
 		'''
         }
     }
+    stage("Validate"){
+        sh 'terraform validate'
+    }
     stage("Plan"){
         sh 'terraform plan'
     }
     stage("Confirmation"){
-        //input 'Should I apply?'
+        input 'Should I apply?'
         echo "Hello"
     }
     stage("Apply"){
-        //sh 'terraform apply -auto-approve'
+        sh 'terraform apply -auto-approve'
         echo 'running apply '
     }
     stage("Security Check"){
@@ -56,7 +59,7 @@ node {
 		'''
     }
     stage("Wait"){
-        sleep 10
+        sleep 3
     }
      stage("Email Notification to Team"){
         mail bcc: 'EC2', body: 'EC2 is created in AWS', cc: 'EC2', from: '', replyTo: '', subject: 'EC2 Build', to: 'emirmails@gmail.com'
