@@ -69,5 +69,5 @@ node {
     }
     stage("Destroy"){
         sh 'terraform destroy -auto-approve'
-        echo 'running destroy '
+        echo 'running destroy'
     }
