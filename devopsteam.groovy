@@ -52,7 +52,7 @@ node {
 			fi
 		'''
     }
-    stage("Wait"){
+        stage("Wait"){
         sleep 3
     }
      stage("Email Notification to Team"){
@@ -61,3 +61,14 @@ node {
     stage("Send message to a Contractor"){
         mail bcc: '', body: '''Hi, VPC has been built Thanks''', cc: '', from: '', replyTo: '', subject: 'VPC being built', to: 'contractor@company.com'    }
 }
+        stage("Confirmation"){
+        input 'Should I Destroy?'
+    }
+        }
+    stage("Wait"){
+        sleep 3
+    }
+        stage("Destroy"){
+        sh 'terraform destroy -auto-approve'
+        echo 'running destroy '
+    }
