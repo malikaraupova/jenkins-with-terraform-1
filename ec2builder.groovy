@@ -43,9 +43,9 @@ node {
         input 'Should I apply?'
         echo "Hello"
     }
-    stage("Apply"){
-        sh 'terraform apply -auto-approve'
-        echo 'running apply '
+    stage("Destroy"){
+        sh 'terraform destroy -auto-approve'
+        echo 'running destroy '
     }
     stage("Security Check"){
         sh label: '', script: 
