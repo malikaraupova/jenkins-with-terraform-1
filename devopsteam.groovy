@@ -64,7 +64,6 @@ node {
     stage("Confirmation"){
         input 'Should I Destroy?'
     }
-        }
     stage("Wait"){
         sleep 3
     }
