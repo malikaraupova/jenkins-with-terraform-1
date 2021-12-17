@@ -10,10 +10,21 @@ node {
             checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/emirsway/jenkins-terraform-aws-resources.git']]])
         }
     }
+
     stage("Initialize"){
         timestamps {
             sh 'terraform init'
         }
+    }
+    stage("Confirmation"){
+        input 'Should I Destroy?'
+    }
+    stage("Wait"){
+        sleep 3
+    }
+    stage("Destroy"){
+        sh 'terraform destroy -auto-approve'
+        echo 'running destroy'
     }
     stage("Run Script"){
         timestamps {
